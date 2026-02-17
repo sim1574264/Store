@@ -133,7 +133,8 @@ public class OrderDaoTest {
         doThrow(new SQLException("Delete failed")).when(smt).execute();
 
         // Should not throw exception, just handle it
-        assertDoesNotThrow(() -> orderDao.cancelOrder(1));
+        // Note: The actual code catches and prints the exception, so it doesn't throw
+        orderDao.cancelOrder(1);
     }
 
     @Test
