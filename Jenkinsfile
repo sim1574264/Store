@@ -16,8 +16,8 @@ pipeline {
                     bat """
                          mvnw.cmd -B -e clean verify ^
   org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar ^
-  -Dsonar.projectKey=GC ^
-  -Dsonar.projectName="GC" ^
+  -Dsonar.projectKey=cargo-tracker ^
+  -Dsonar.projectName="Store" ^
   -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml ^
   -Dsonar.host.url=http://localhost:9000
                     """
