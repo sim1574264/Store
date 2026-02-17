@@ -19,7 +19,7 @@ pipeline {
   -Dsonar.projectKey=cargo-tracker ^
   -Dsonar.projectName="Store" ^
   -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml ^
-  -Dsonar.host.url=http://localhost:9000
+  -Dsonar.host.url=http://localhost:9000 ^
   -Dsonar.token=squ_bace32cced22fe7f2dbf8a350d5072f50b3d0764
                     """
                 }
