@@ -109,14 +109,17 @@
 
       </executions>
     </plugin>
-    <plugin>
+  <plugin>
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-surefire-plugin</artifactId>
   <version>3.2.2</version>
   <configuration>
+    <!-- IMPORTANT: conserver ${argLine} si Jacoco/agents sont utilisés -->
+    <argLine>${argLine} -Xms512m -Xmx2048m</argLine>
+
+    <!-- Pour éviter d'exploser la RAM si plusieurs forks -->
     <forkCount>1</forkCount>
     <reuseForks>true</reuseForks>
-    <argLine>-Xms256m -Xmx1024m</argLine>
   </configuration>
 </plugin>
 
