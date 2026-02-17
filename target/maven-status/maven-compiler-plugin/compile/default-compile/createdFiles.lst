@@ -1,0 +1,12 @@
+com\store\app\model\Order.class
+com\store\app\servlet\Auth.class
+com\store\app\dao\OrderDao.class
+com\store\app\dao\UserDao.class
+com\store\app\dao\ProductDao.class
+com\store\app\servlet\CartServlet.class
+com\store\app\model\User.class
+com\store\app\servlet\OpsServlet.class
+com\store\app\model\Product.class
+com\store\app\servlet\OrderServlet.class
+com\store\app\connection\dbConnection.class
+com\store\app\model\Cart.class

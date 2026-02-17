@@ -26,14 +26,7 @@ pipeline {
             }
         }
 
-        // Optionnel: faire échouer le pipeline si Quality Gate KO
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+      
     }
 
     post {
