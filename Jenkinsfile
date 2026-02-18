@@ -25,6 +25,11 @@ pipeline {
                 }
             }
         }
+        stage('Package'){
+            steps{
+                bat """mvnw.cmd package"""
+            }
+        }
 
       
     }
