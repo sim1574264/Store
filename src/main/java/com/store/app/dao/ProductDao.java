@@ -3,6 +3,7 @@ package com.store.app.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,29 +43,50 @@ public class ProductDao {
 		return products;
 	}
 	
-	 public Product getSingleProduct(int id) {
-		 Product row = null;
-	        try {
-	            query = "select * from products where id=? ";
-
-	            smt = this.con.prepareStatement(query);
-	            smt.setInt(1, id);
-	            ResultSet rs = smt.executeQuery();
-
-	            while (rs.next()) {
-	            	row = new Product();
-	                row.setId(rs.getInt("id"));
-	                row.setName(rs.getString("name"));
-	                row.setCategory(rs.getString("category"));
-	                row.setPrice(rs.getDouble("price"));
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            System.out.println(e.getMessage());
-	        }
-
-	        return row;
-	    }
+	public Product getSingleProduct(int id) {
+		// Validate input parameter
+		if (id <= 0) {
+			return null;
+		}
+		
+		// Use explicit column names for better performance and clarity
+		final String SQL = "SELECT id, name, category, price FROM products WHERE id = ?";
+		
+		Product product = null;
+		
+		try (PreparedStatement pstmt = this.con.prepareStatement(SQL)) {
+			pstmt.setInt(1, id);
+			
+			try (ResultSet rs = pstmt.executeQuery()) {
+				// Use if instead of while since id is unique
+				if (rs.next()) {
+					product = new Product();
+					product.setId(rs.getInt("id"));
+					product.setName(rs.getString("name"));
+					product.setCategory(rs.getString("category"));
+					product.setPrice(rs.getDouble("price"));
+				}
+			}
+			
+		} catch (SQLException e) {
+			// Proper exception handling with specific SQL exception
+			logError("Error fetching product with id: " + id, e);
+		}
+		
+		return product;
+	}
+	
+	/**
+	 * Logs error messages for database operations
+	 * @param message The error message
+	 * @param e The exception that occurred
+	 */
+	private void logError(String message, SQLException e) {
+		// Print stack trace for debugging
+		e.printStackTrace();
+		// Log message for production logging framework
+		System.err.println(message + " - " + e.getMessage());
+	}
 	
 	public List<Cart> getCartProduct(ArrayList<Cart> cartList){
 		List<Cart> productList = new ArrayList<Cart>();
