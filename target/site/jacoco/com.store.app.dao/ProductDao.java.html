@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">store-app</a> &gt; <a href="index.source.html" class="el_package">com.store.app.dao</a> &gt; <span class="el_source">ProductDao.java</span></div><h1>ProductDao.java</h1><pre class="source lang-java linenums">package com.store.app.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.store.app.model.Cart;
+import com.store.app.model.Product;
+
+public class ProductDao {
+	private Connection con;
+	private String query;
+	private PreparedStatement smt;
+	private ResultSet rs;
+	
+	public ProductDao(Connection con) {
+<span class="fc" id="L20">		super();</span>
+<span class="fc" id="L21">		this.con = con;</span>
+<span class="fc" id="L22">	}</span>
+	
+	public List&lt;Product&gt; showProducts(){
+<span class="fc" id="L25">		List&lt;Product&gt; products = new ArrayList&lt;Product&gt;();</span>
+		try {
+<span class="fc" id="L27">			query = &quot;select * from products&quot;;</span>
+<span class="fc" id="L28">			smt = this.con.prepareStatement(query);</span>
+<span class="fc" id="L29">			rs = smt.executeQuery();</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">			while(rs.next()) {</span>
+<span class="fc" id="L31">				Product product_row = new Product();</span>
+<span class="fc" id="L32">				product_row.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L33">				product_row.setName(rs.getString(&quot;name&quot;));</span>
+<span class="fc" id="L34">				product_row.setCategory(rs.getString(&quot;category&quot;));</span>
+<span class="fc" id="L35">				product_row.setPrice(rs.getDouble(&quot;price&quot;));</span>
+<span class="fc" id="L36">				product_row.setImage(rs.getString(&quot;image&quot;));</span>
+<span class="fc" id="L37">				products.add(product_row);</span>
+<span class="fc" id="L38">			}</span>
+				
+<span class="nc" id="L40">			}catch(Exception e) {</span>
+<span class="nc" id="L41">				e.printStackTrace();</span>
+<span class="fc" id="L42">		}</span>
+<span class="fc" id="L43">		return products;</span>
+	}
+	
+	public Product getSingleProduct(int id) {
+		// Validate input parameter
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		if (id &lt;= 0) {</span>
+<span class="fc" id="L49">			return null;</span>
+		}
+		
+		// Use explicit column names for better performance and clarity
+<span class="fc" id="L53">		final String SQL = &quot;SELECT id, name, category, price FROM products WHERE id = ?&quot;;</span>
+		
+<span class="fc" id="L55">		Product product = null;</span>
+		
+<span class="fc" id="L57">		try (PreparedStatement pstmt = this.con.prepareStatement(SQL)) {</span>
+<span class="fc" id="L58">			pstmt.setInt(1, id);</span>
+			
+<span class="fc" id="L60">			try (ResultSet rs = pstmt.executeQuery()) {</span>
+				// Use if instead of while since id is unique
+<span class="fc bfc" id="L62" title="All 2 branches covered.">				if (rs.next()) {</span>
+<span class="fc" id="L63">					product = new Product();</span>
+<span class="fc" id="L64">					product.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L65">					product.setName(rs.getString(&quot;name&quot;));</span>
+<span class="fc" id="L66">					product.setCategory(rs.getString(&quot;category&quot;));</span>
+<span class="fc" id="L67">					product.setPrice(rs.getDouble(&quot;price&quot;));</span>
+				}
+			}
+			
+<span class="nc" id="L71">		} catch (SQLException e) {</span>
+			// Proper exception handling with specific SQL exception
+<span class="nc" id="L73">			logError(&quot;Error fetching product with id: &quot; + id, e);</span>
+<span class="fc" id="L74">		}</span>
+		
+<span class="fc" id="L76">		return product;</span>
+	}
+	
+	/**
+	 * Logs error messages for database operations
+	 * @param message The error message
+	 * @param e The exception that occurred
+	 */
+	private void logError(String message, SQLException e) {
+		// Print stack trace for debugging
+<span class="nc" id="L86">		e.printStackTrace();</span>
+		// Log message for production logging framework
+<span class="nc" id="L88">		System.err.println(message + &quot; - &quot; + e.getMessage());</span>
+<span class="nc" id="L89">	}</span>
+	
+	public List&lt;Cart&gt; getCartProduct(ArrayList&lt;Cart&gt; cartList){
+<span class="fc" id="L92">		List&lt;Cart&gt; productList = new ArrayList&lt;Cart&gt;();</span>
+		try {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">			if(cartList.size() &gt; 0) {</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">				for(Cart item:cartList) {</span>
+<span class="fc" id="L96">					query = &quot;select * from products where id=?&quot;;</span>
+<span class="fc" id="L97">					smt = this.con.prepareStatement(query);</span>
+<span class="fc" id="L98">					smt.setInt(1, item.getId());</span>
+<span class="fc" id="L99">					rs = smt.executeQuery();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">					while(rs.next()) {</span>
+<span class="fc" id="L101">						Cart row = new Cart();</span>
+<span class="fc" id="L102">							row.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L103">							row.setName(rs.getString(&quot;name&quot;));</span>
+<span class="fc" id="L104">							row.setCategory(rs.getString(&quot;category&quot;));</span>
+<span class="fc" id="L105">							row.setPrice(rs.getDouble(&quot;price&quot;)*item.getQuantity());</span>
+<span class="fc" id="L106">							row.setQuantity(item.getQuantity());</span>
+<span class="fc" id="L107">							productList.add(row);</span>
+<span class="fc" id="L108">						}</span>
+<span class="fc" id="L109">					}</span>
+				}
+<span class="nc" id="L111">			}catch(Exception e) {</span>
+<span class="nc" id="L112">				e.printStackTrace();</span>
+<span class="fc" id="L113">			}</span>
+<span class="fc" id="L114">		  return productList ;</span>
+		}
+	
+	public double totalPrice(ArrayList&lt;Cart&gt; cartList) {
+<span class="fc" id="L118">		double total=0;</span>
+		try {
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">			if(cartList.size() &gt; 0) {</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">				for(Cart item:cartList) {</span>
+<span class="fc" id="L122">					query = &quot;select price from products where id=?&quot;;</span>
+<span class="fc" id="L123">					smt = this.con.prepareStatement(query);</span>
+<span class="fc" id="L124">					smt.setInt(1, item.getId());</span>
+<span class="fc" id="L125">					rs = smt.executeQuery();</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">					while(rs.next()) {</span>
+<span class="fc" id="L127">						total+=rs.getDouble(&quot;price&quot;)*item.getQuantity();</span>
+					}
+					
+<span class="fc" id="L130">				}</span>
+			}
+		}
+<span class="nc" id="L133">		catch(Exception e){</span>
+<span class="nc" id="L134">			e.printStackTrace();</span>
+<span class="fc" id="L135">		}</span>
+<span class="fc" id="L136">		return total;</span>
+		
+	}
+		
+		
+	}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

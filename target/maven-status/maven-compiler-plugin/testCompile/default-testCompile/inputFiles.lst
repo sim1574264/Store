@@ -1,7 +1,6 @@
-c:\Users\4B\Documents\S4\Devops\store\Store\src\test\java\com\store\app\dao\ProductDaoTest.java
-c:\Users\4B\Documents\S4\Devops\store\Store\src\test\java\com\store\app\model\ProductTest.java
-c:\Users\4B\Documents\S4\Devops\store\Store\src\test\java\com\store\app\model\OrderTest.java
-c:\Users\4B\Documents\S4\Devops\store\Store\src\test\java\com\store\app\servlet\OpsServletTest.java
-c:\Users\4B\Documents\S4\Devops\store\Store\src\test\java\com\store\app\model\CartTest.java
-c:\Users\4B\Documents\S4\Devops\store\Store\src\test\java\com\store\app\dao\OrderDaoTest.java
-c:\Users\4B\Documents\S4\Devops\store\Store\src\test\java\com\store\app\model\UserTest.java
+C:\Users\4B\Documents\S4\Devops\cargo\Store\src\test\java\com\store\app\servlet\OrderServletTest.java
+C:\Users\4B\Documents\S4\Devops\cargo\Store\src\test\java\com\store\app\servlet\CartServletTest.java
+C:\Users\4B\Documents\S4\Devops\cargo\Store\src\test\java\com\store\app\model\CartTest.java
+C:\Users\4B\Documents\S4\Devops\cargo\Store\src\test\java\com\store\app\model\UserTest.java
+C:\Users\4B\Documents\S4\Devops\cargo\Store\src\test\java\com\store\app\model\ProductTest.java
+C:\Users\4B\Documents\S4\Devops\cargo\Store\src\test\java\com\store\app\dao\ProductDaoTest.java

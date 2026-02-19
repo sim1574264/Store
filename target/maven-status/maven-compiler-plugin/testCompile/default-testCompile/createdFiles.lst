@@ -1,7 +1,6 @@
-com\store\app\dao\OrderDaoTest.class
-com\store\app\servlet\OpsServletTest.class
-com\store\app\dao\ProductDaoTest.class
-com\store\app\model\OrderTest.class
-com\store\app\model\CartTest.class
 com\store\app\model\ProductTest.class
+com\store\app\dao\ProductDaoTest.class
+com\store\app\servlet\CartServletTest.class
 com\store\app\model\UserTest.class
+com\store\app\servlet\OrderServletTest.class
+com\store\app\model\CartTest.class

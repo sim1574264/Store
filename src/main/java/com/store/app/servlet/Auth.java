@@ -14,7 +14,7 @@ import com.store.app.dao.UserDao;
 import com.store.app.model.User;
 
 
-@WebServlet("/")
+@WebServlet("/Auth")
 public class Auth extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -45,6 +45,7 @@ public class Auth extends HttpServlet {
 		//login
 		String email = request.getParameter("login-email");
 		String password = request.getParameter("login-password");
+	    
 		try {
 			UserDao userdao = new UserDao(dbConnection.getConnection());
 			User user = userdao.userLogin(email, password);
@@ -53,7 +54,8 @@ public class Auth extends HttpServlet {
 				response.sendRedirect("home.jsp");
 			}else {
 				PrintWriter out = response.getWriter();
-				out.print("USER NOT FOUND");
+				out.print("USER NO fo");
+				
 			}
 			
 		} catch (ClassNotFoundException e) {
