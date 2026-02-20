@@ -13,7 +13,7 @@ pipeline {
 
         // --- Docker / Registry ---
         REGISTRY = 'docker.io'           // <-- change si DockerHub: 'docker.io'
-        IMAGE_REPO = "${REGISTRY}/estore/store"     // <-- repo image
+        IMAGE_REPO = "${REGISTRY}/store-jjee"     // <-- repo image
         DOCKER_CRED = 'docker'        // type: Username/Password
 
         // --- Kubernetes ---
