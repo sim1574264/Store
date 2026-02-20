@@ -9,13 +9,12 @@ pipeline {
         SONAR_HOST_URL = 'http://localhost:9000'
         SONAR_PROJECT_KEY = 'cargo-tracker'
         SONAR_PROJECT_NAME = 'Store'
-        // ⚠️ Ne mets PAS le token en clair. Mets-le dans Jenkins Credentials.
-        SONAR_TOKEN_CRED = 'sonar-token' // type: Secret text
+        
 
         // --- Docker / Registry ---
-        REGISTRY = 'registry.intra.local'           // <-- change si DockerHub: 'docker.io'
+        REGISTRY = 'docker.io'           // <-- change si DockerHub: 'docker.io'
         IMAGE_REPO = "${REGISTRY}/estore/store"     // <-- repo image
-        DOCKER_CRED = 'docker-registry-cred'        // type: Username/Password
+        DOCKER_CRED = 'docker'        // type: Username/Password
 
         // --- Kubernetes ---
         KUBECONFIG_CRED = 'kubeconfig-jenkins'      // type: Secret file
@@ -69,7 +68,7 @@ pipeline {
             }
         }
 
-        stage('Docker Push') {
+        stage('docker ') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_CRED}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     bat """
