@@ -34,20 +34,18 @@ pipeline {
             }
         }
 
-        stage('Build + SonarQube Analysis') {
+      stage('Build + SonarCloud Analysis') {
             steps {
-                withCredentials([string(credentialsId: "${SONAR_TOKEN_CRED}", variable: 'SONAR_TOKEN')]) {
-                    withSonarQubeEnv("${SONAR_INSTANCE}") {
-                        bat """
-                            mvnw.cmd -B -e clean verify ^
-                              org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar ^
-                              -Dsonar.projectKey=%SONAR_PROJECT_KEY% ^
-                              -Dsonar.projectName="%SONAR_PROJECT_NAME%" ^
-                              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml ^
-                              -Dsonar.host.url=%SONAR_HOST_URL% ^
-                              -Dsonar.token=%SONAR_TOKEN%
-                        """
-                    }
+                withSonarQubeEnv('SonarQube') {
+                    bat """
+                         mvnw.cmd -B -e clean verify ^
+  org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar ^
+  -Dsonar.projectKey=cargo-tracker ^
+  -Dsonar.projectName="Store" ^
+  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml ^
+  -Dsonar.host.url=http://localhost:9000 ^
+  -Dsonar.token=squ_bace32cced22fe7f2dbf8a350d5072f50b3d0764
+                    """
                 }
             }
         }
