@@ -11,9 +11,9 @@ public class dbConnection {
 		if (con == null) {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(
-  "jdbc:mysql://localhost:3306/estore?useSSL=false&serverTimezone=UTC",
-  "root",
-  "root"
+  "jdbc:mysql://mysql:3306/estore?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true",
+  "estore_user",
+  "estore_pass"
 );
 			//System.out.println("Connected");
 		}
